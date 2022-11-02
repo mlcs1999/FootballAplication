@@ -1,3 +1,17 @@
+<?php
+    $id = $_GET['timID-izmeni'];
+    // $index = -1;
+    for ($i = 0; $i < count($_SESSION['timovi']); $i++) {
+        if ($_SESSION['timovi'][$i]['timID'] == $id) {
+            $index = $i;
+            break;
+        }
+    }
+    //DA PROVERE DA LI VRACA DOBRO
+    // echo $index;
+    // print_r($_SESSION['timovi']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,20 +27,20 @@
 
 <body>
     <form action="#" method="post" id="dodajForm">
-        <h3 id="naslov" style="color: black" text-align="center">Dodavanje tima</h3>
+        <h3 id="naslov" style="color: black" text-align="center">Ažuriranje tima</h3>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="text" style="border: 1px solid black" name="nazivTima" class="form-control" placeholder="Naziv tima *" value="_____nazivTima____" />
+                    <input type="text" style="border: 1px solid black" name="nazivTima" class="form-control" placeholder="Naziv tima *" value="<?php echo $_SESSION['timovi'][$index]['nazivTima'] ?>" />
                 </div>
                 <div class="form-group">
-                    <input type="text" style="border: 1px solid black" name="drzava" class="form-control" placeholder="Grad  *" value="_____drzava____" />
+                    <input type="text" style="border: 1px solid black" name="drzava" class="form-control" placeholder="Grad  *" value="<?php echo $_SESSION['timovi'][$index]['drzava'] ?>" />
                 </div>
                 <div class="form-group">
-                    <input type="number" style="border: 1px solid black" name="godinaOsnivanja" class="form-control" placeholder="Godina osnivanja tima *" value="_____godinaOsnivanja____" />
+                    <input type="number" style="border: 1px solid black" name="godinaOsnivanja" class="form-control" placeholder="Godina osnivanja tima *" value="<?php echo $_SESSION['timovi'][$index]['godinaOsnivanja'] ?>" />
                 </div>
                 <div class="form-group">
-                    <input type="number" style="border: 1px solid black" name="brojTitula" class="form-control" placeholder="Broj titula *" value="_____brojTitula____" />
+                    <input type="number" style="border: 1px solid black" name="brojTitula" class="form-control" placeholder="Broj titula *" value="<?php echo $_SESSION['timovi'][$index]['brojTitula'] ?>" />
                 </div>
                 <div class="form-group">
                     <form action="" method="post">
