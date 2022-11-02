@@ -13,6 +13,7 @@
                 "brojTitula" => $_POST['brojTitula'],
         );
         $_SESSION['timovi'][] = $noviTim;
+        unset($_SESSION['timovi-search']); //ovo dodaj tek kad odradis SEARCH
         header("Location: .");
         exit();
     }
@@ -27,6 +28,7 @@
         for($i = 0; $i < count($_SESSION['timovi']); $i++) {
             if($_GET['timID-izbrisi'] == $_SESSION['timovi'][$i]['timID']) {
                 array_splice($_SESSION['timovi'], $i, 1);
+                unset($_SESSION['timovi-search']); //ovo dodaj tek kad odradis SEARCH
                 header("Location: .");
                 exit();
             }
@@ -59,10 +61,33 @@
         // usort($_SESSION['timovi'], function ($a, $b) {
         //     return strcmp(strtolower($a['nazivTima']), strtolower($b['nazivTima']));
         // });
-        usort($_SESSION['timovi'], sortiraj);
+        usort($_SESSION['timovi'], 'sortiraj');
+        // sort($_SESSION['timovi']);
         header("Location: .");
         exit();
     } 
+
+    //SEARCH
+    if (isset($_GET['unos'])) {
+        if ($_GET['unos'] == "")
+            unset($_SESSION['timovi-search']);
+        else {
+            $_SESSION['timovi-search'] = [];
+            foreach ($_SESSION['timovi'] as $tim) {
+                if (
+                    str_contains(strtolower($tim['nazivTima']), strtolower($_GET['unos'])) ||
+                    str_contains(strtolower($tim['drzava']), strtolower($_GET['unos'])) ||
+                    str_contains(strtolower($tim['godinaOsnivanja']), strtolower($_GET['unos'])) ||
+                    str_contains(strtolower($tim['brojTitula']), strtolower($_GET['unos']))
+                    )   
+                    {
+                    $_SESSION['timovi-search'][] = $tim;
+                    }
+            }
+        }
+        header("Location: .");
+        exit();
+    }
 
     //LOGIN
     if(isset($_POST['username']) && isset($_POST['password'])) {
