@@ -4,7 +4,6 @@
     require 'model/tim.php';
 
     //ADD
-
     if(isset($_POST['dodajTim'])) {
         $noviTim = array(
                 "timID" => findMaxId() + 1,
@@ -55,6 +54,16 @@
         exit();
     }
 
+    //SORT
+    if (isset($_GET['sortiraj'])) {
+        // usort($_SESSION['timovi'], function ($a, $b) {
+        //     return strcmp(strtolower($a['nazivTima']), strtolower($b['nazivTima']));
+        // });
+        usort($_SESSION['timovi'], sortiraj);
+        header("Location: .");
+        exit();
+    } 
+
     //LOGIN
     if(isset($_POST['username']) && isset($_POST['password'])) {
         $username = $_POST['username'];
@@ -84,6 +93,7 @@
     include 'login.php';
 
     //FUNCTIONS
+    //for login
     function login($username, $password) {
         global $korisnici;
         foreach($korisnici as $k) {
@@ -94,6 +104,7 @@
         return false;
     }
 
+    //for add 
     function findMaxId() {
         // $idjevi = [];
         // foreach($_SESSION['timovi'] as $tim) {
@@ -107,5 +118,10 @@
             }
         }
         return $max;
+    }
+
+    //for sort
+    function sortiraj($a, $b) {
+        return strcmp(strtolower($a['nazivTima']), strtolower($b['nazivTima']));
     }
 ?>
